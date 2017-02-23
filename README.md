@@ -1,52 +1,53 @@
-# MongoDB BOSH release  #
+# MongoDB BOSH release
 
-  This MongoDB deployment is intended for use with BOSH deployment  
+This MongoDB deployment is intended for use with BOSH deployment  
 
-## Prerequisites## 
+## Prerequisites
 
-1 A deployment of [BOSH](https://github.com/cloudfoundry/bosh)
+1. A deployment of [BOSH](https://github.com/cloudfoundry/bosh)
+2. Tested environment
 
-2 Tested environment 
+Name | Version
+------------ | -------------
+MongoDB | 3
+BOSH | 261.1
+bosh-vsphere-cpi-release | v38
+bosh-vsphere-esxi-ubuntu-trusty-go_agent | 3363.1
 
-​    BOSH                                                            			261.1
+## Features 
 
-​     bosh-vsphere-cpi-release                         			v38
+1. Bosh deployed
 
-​     bosh-vsphere-esxi-ubuntu-trusty-go_agent 		 3363.1     
+2. Single multi-tenant back-end cluster
 
-# Features 
+3. service instances represent logical databases on the shared server  
 
- 1 Bosh deployed
+## How to use
 
-  2 Single multi-tenant back-end cluster
+1. You can follow the [bosh document](http://bosh.io/docs) to install BOSH firstly
 
-  3 service instances represent logical databases on the shared server  
+2. Create manifest file. You can find example mongodb3-release.manifest under examples folder as reference
 
-# How to use
+3. Create and upload release
 
-​      1 You can follow the [bosh document](http://bosh.io/docs) to install BOSH firstly 
+    `bosh create release --force`
+    `bosh upload release`
 
-​       2 Create manifest file . You can find examples mongodb3-release.manifest under examples folder as reference 
+4. Deploy 
 
-​       3 Create and upload releases
+    `bosh deployment your_deployment_manifest_file`
+    `bosh -n deploy` 
+    `bosh run errand replset --keep-alive`
 
-​           `bosh create release --force`
-​           `bosh upload release`
+5. When it completes ,you can check mongodb node using
 
-​       4 Deploy 
+    `bosh vms`
 
-​            `bosh deployment your_deployment_manifest_file`
-​            `bosh -n deploy` 
-​            `bosh run errand replset --keep-alive`
+## Road-map
 
-​        5 when it completes ,you can check mongodb node using `bosh vms`
+1. Authentication 
+2. Dashboard 
 
-# Road-map
-
-   1 Authentication 
-
-​    2 Dashboard 
-
-# Contribution 
+## Contribution 
 
 Welcome to contribute through pull request  
