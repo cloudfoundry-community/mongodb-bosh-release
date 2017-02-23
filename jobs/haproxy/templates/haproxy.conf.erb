@@ -1,0 +1,53 @@
+global
+  daemon
+  user vcap
+  group vcap
+  log /dev/log daemon info
+  maxconn 4096
+
+defaults
+  log global
+  option dontlognull
+  mode  tcp
+# timeout connect  5000ms
+# timeout client  30000ms
+# timeout server  30000ms
+  retries   3
+  option redispatch
+
+default-server  on-error fastinter error-limit 3 inter 30000ms fastinter 10000ms downinter 300s fall 3
+
+frontend fe_mongo_27027_tcp
+  bind 0.0.0.0:27027
+  mode tcp
+  option tcplog
+  use_backend be_mongo_27027_tcp
+
+backend be_mongo_27027_tcp
+  mode tcp
+  option tcp-check
+  # mongodb wire protocol
+  tcp-check send-binary 3a000000 # Message Length (58)
+  tcp-check send-binary EEEEEEEE # Request ID (random value)
+  tcp-check send-binary 00000000 # Response To (nothing)
+  tcp-check send-binary d4070000 # OpCode (Query)
+  tcp-check send-binary 00000000 # Query Flags
+  tcp-check send-binary 61646d696e2e # fullCollectionName (admin.$cmd)
+  tcp-check send-binary 24636d6400 # continued
+  tcp-check send-binary 00000000 # NumToSkip
+  tcp-check send-binary FFFFFFFF # NumToReturn
+  # Start of Document
+  tcp-check send-binary 13000000 # Document Length (19)
+  tcp-check send-binary 10 # Type (Int32)
+  tcp-check send-binary 69736d617374657200 # ismaster:
+  tcp-check send-binary 01000000 # Value : 1
+  tcp-check send-binary 00 # Term
+
+  tcp-check expect binary 69736d61737465720001 #ismaster True
+  # mongodb check end
+
+  option tcplog
+  option tcpka
+  <% p("mongodb.ips").each do |ip| %>
+  server mongodb-<%= ip %> <%= ip %>:27017 check inter 20000
+  <% end %>

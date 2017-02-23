@@ -1,0 +1,22 @@
+set -e
+
+LOG_DIR=/var/vcap/sys/log/haproxy
+mkdir -p $LOG_DIR
+chown -R $RUNAS:$RUNAS  $LOG_DIR
+
+cp -r haproxy/* ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}
+tar xzf haproxy-1.6.5.tar.gz
+tar xzf pcre-8.38.tar.gz
+
+cd pcre-8.38
+./configure
+make
+make install
+cd ..
+
+cd haproxy-1.6.5
+make TARGET=linux2628 USE_OPENSSL=1 USE_STATIC_PCRE=1 USE_ZLIB=1
+make install
+

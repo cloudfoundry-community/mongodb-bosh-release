@@ -1,0 +1,39 @@
+#!/bin/bash
+
+DATA_DIR=/var/vcap/store/mongodb3
+RUN_DIR=/var/vcap/sys/run/mongodb3
+LOG_DIR=/var/vcap/sys/log/mongodb3
+
+PIDFILE=$RUN_DIR/mongodb3.pid
+RUNAS=vcap
+
+function pid_exists() {
+  ps -p $1 &> /dev/null
+}
+
+case $1 in
+
+  start)
+    mkdir -p $DATA_DIR $RUN_DIR $LOG_DIR
+    chown -R $RUNAS:$RUNAS $DATA_DIR $RUN_DIR $LOG_DIR
+
+    echo $$ > $PIDFILE
+
+    exec chpst -u $RUNAS:$RUNAS \
+      /var/vcap/packages/simple_server/mongodb-linux-x86_64-ubuntu1404-3.2.6/bin/mongod --dbpath $DATA_DIR --replSet resp1
+      >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    if [ ! -z $PID ] && pid_exists $PID; then
+      kill $PID
+    fi
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+  echo "Usage: ctl {start|stop|console}" ;;
+esac
+exit 0

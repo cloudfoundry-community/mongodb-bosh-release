@@ -1,0 +1,9 @@
+---
+name: create-users
+
+packages:
+- ruby
+
+templates:
+  errand.sh.erb: bin/run
+  

@@ -1,0 +1,12 @@
+---
+name: mongodb3 
+templates:
+  ctl: bin/ctl
+
+packages:
+- simple_server
+
+properties:
+  port:
+    description: "Port on which server is listening"
+    default: 8080

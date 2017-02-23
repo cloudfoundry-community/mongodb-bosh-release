@@ -1,0 +1,5 @@
+---
+name: simple_server
+files:
+- simple_server/**/*
+- simple_server/mongodb3.tgz

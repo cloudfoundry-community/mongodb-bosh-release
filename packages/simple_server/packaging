@@ -1,0 +1,9 @@
+set -e
+
+cp -r simple_server/mongodb3.tgz ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}
+ls
+pwd
+
+tar zxvf mongodb3.tgz

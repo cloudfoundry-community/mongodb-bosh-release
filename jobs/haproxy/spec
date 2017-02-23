@@ -1,0 +1,9 @@
+---
+name: haproxy
+
+packages:
+- haproxy
+
+templates:
+  haproxy.conf.erb: bin/haproxy.conf
+  haproxy_ctl: bin/haproxy_ctl

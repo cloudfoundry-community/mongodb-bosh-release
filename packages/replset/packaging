@@ -1,0 +1,25 @@
+set -e
+
+LOG_DIR=/var/vcap/sys/log/replset
+mkdir -p $LOG_DIR
+chown -R $RUNAS:$RUNAS  $LOG_DIR
+cp -r replset/* ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}
+tar xzf pip-8.1.2.tar.gz
+tar xzf pymongo-3.2.tar.gz
+tar xzf setuptools-19.6.2.tar.gz
+
+cd setuptools-19.6.2
+sudo python setup.py install >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
+cd ${BOSH_INSTALL_TARGET}
+
+cd pip-8.1.2
+sudo python setup.py install >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
+cd ${BOSH_INSTALL_TARGET}
+
+cd setuptools-19.6.2
+sudo python setup.py install >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
+cd ${BOSH_INSTALL_TARGET}
+
+

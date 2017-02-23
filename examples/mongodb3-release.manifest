@@ -1,0 +1,126 @@
+---
+name: mongodb3
+director_uuid: 9b61cd26-8e25-4272-b45d-340eaaf47f08 
+releases:
+- {name: mongodb3, version: latest}
+compilation:
+  workers: 1
+  reuse_compilation_vms: false
+  network: compile
+  cloud_properties:
+    cpu: 4
+    datacenters:
+    - clusters:
+      - cf_z10:
+          resource_pool: lynn
+      name: demohop 
+    disk: 20480
+    ram: 4096
+update:
+  canaries: 1
+  canary_watch_time: 15000-30000
+  update_watch_time: 15000-30000
+  max_in_flight: 1
+networks:
+- name: compile
+  subnets:
+  - cloud_properties:
+      name: VM Network
+    dns:
+    - 10.254.174.10
+    - 10.104.128.235
+    gateway: 10.241.143.1
+    range: 10.241.143.0/24
+    static_ips:  10.241.143.44
+- name: default
+  subnets:
+  - cloud_properties:
+      name: VM Network
+    dns:
+    - 10.254.174.10
+    - 10.104.128.235
+    gateway: 10.241.143.1
+    range: 10.241.143.0/24
+    reserved:
+    - 10.241.143.2 - 10.241.143.44
+    - 10.241.143.48 - 10.241.143.89
+    - 10.241.143.95 - 10.241.143.254
+    static_ips:  [10.241.143.45 , 10.241.143.46, 10.241.143.47]
+- name: haproxy
+  subnets:
+  - cloud_properties:
+      name: VM Network
+    dns:
+    - 10.254.174.10
+    - 10.104.128.235
+    gateway: 10.241.143.1
+    range: 10.241.143.0/24
+    reserved:
+    - 10.241.143.2 - 10.241.143.89
+    - 10.241.143.93 - 10.241.143.254
+    static_ips: [10.241.143.90, 10.241.143.91, 10.241.143.92]
+resource_pools:
+- name: mongodb3 
+  network: default
+  stemcell:
+    name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    cpu: 2
+    datacenters:
+    - clusters:
+      - cf_z10:
+          resource_pool: lynn 
+      name: demohop 
+    disk: 10480
+    ram: 4096
+- name: haproxy
+  network: haproxy
+  stemcell:
+    name: bosh-vsphere-esxi-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    cpu: 2
+    datacenters:
+    - clusters:
+      - cf_z10:
+          resource_pool: lynn
+      name: demohop 
+    disk: 10480
+    ram: 4096
+jobs:
+- name: mongodb3 
+  instances: 3 
+  templates:
+  - {name: mongodb3, release: mongodb3}
+  persistent_disk: 10_240
+  resource_pool: mongodb3 
+  networks:
+  - name: default
+  properties: {}
+- name: haproxy
+  instances: 1
+  templates:
+  - {name: haproxy, release: mongodb3}
+  persistent_disk: 10_240
+  resource_pool: haproxy
+  networks:
+  - name: haproxy
+  properties: {}
+- name: replset
+  lifecycle: errand
+  instances: 1
+  templates:
+  - {name: replset, release: mongodb3}
+  persistent_disk: 10_240
+  resource_pool: haproxy
+  networks:
+  - name: haproxy
+  properties: {}
+
+properties:
+  mongodb:
+    ips:
+    - 10.241.143.45
+    - 10.241.143.46
+    - 10.241.143.47

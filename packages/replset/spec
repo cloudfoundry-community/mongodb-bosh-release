@@ -1,0 +1,6 @@
+---
+name: replset
+files:
+- replset/pip-8.1.2.tar.gz
+- replset/setuptools-19.6.2.tar.gz
+- replset/pymongo-3.2.tar.gz

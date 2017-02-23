@@ -1,0 +1,19 @@
+#!/bin/bash
+
+LOG_DIR=/var/vcap/sys/log/replset
+RUNAS=vcap
+
+mkdir -p $LOG_DIR
+chown -R $RUNAS:$RUNAS  $LOG_DIR
+
+export BOST_INSTALL_TARGET1=/var/vcap/packages/replset/
+
+cd /var/vcap/packages/replset/setuptools-19.6.2
+sudo python setup.py install >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
+cd /var/vcap/packages/replset/pip-8.1.2
+sudo python setup.py install >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
+cd /var/vcap/packages/replset/pymongo-3.2
+sudo python setup.py install >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
+cd ~
+
+python /var/vcap/jobs/replset/bin/replset.py

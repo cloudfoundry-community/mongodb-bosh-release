@@ -1,0 +1,5 @@
+check process mongodb3 
+  with pidfile /var/vcap/sys/run/mongodb3/mongodb3.pid
+  start program "/var/vcap/jobs/mongodb3/bin/ctl start"
+  stop program "/var/vcap/jobs/mongodb3/bin/ctl stop"
+  group vcap
