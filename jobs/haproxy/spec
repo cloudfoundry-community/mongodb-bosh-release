@@ -7,3 +7,8 @@ packages:
 templates:
   haproxy.conf.erb: bin/haproxy.conf
   haproxy_ctl: bin/haproxy_ctl
+
+
+properties:
+  mongodb.ips:
+    description: "Array of MongoDB servers"
