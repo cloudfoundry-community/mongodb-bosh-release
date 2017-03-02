@@ -1,0 +1,29 @@
+---
+name: create-user 
+
+packages:
+- simple_server 
+
+templates:
+  errand.sh.erb: bin/run
+
+properties:
+  mongodb.auth.user:
+    description: "User name of user to create"
+    default: admin
+  mongodb.auth.password:
+    description: "Password of user to create"
+    default: pleasechangeme
+  mongodb.auth.user_role:
+    description: "Userrole of user to create"
+    default: userAdminAnyDatabase
+  mongodb.auth.user_db:
+    description: "DB for user to create"
+    default: admin
+
+
+  haproxy.ip:
+    description: "IP of HAproxy"
+  haproxy.port:
+    description: "Port of HAProxy"
+    default: 27027

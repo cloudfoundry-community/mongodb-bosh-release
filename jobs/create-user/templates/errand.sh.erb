@@ -1,0 +1,25 @@
+#!/bin/bash
+
+LOG_DIR=/var/vcap/sys/log/create-user
+RUNAS=vcap
+
+mkdir -p $LOG_DIR
+chown -R $RUNAS:$RUNAS  $LOG_DIR
+
+export BOST_INSTALL_TARGET1=/var/vcap/packages/create-user/
+export LC_ALL=C
+
+cd /var/vcap/jobs/create-user
+cat <<__EOF__ >> auth.js
+db.createUser(
+  {
+    user: "<%= p('mongodb.auth.user') %>",
+    pwd: "<%= p('mongodb.auth.password') %>",
+    roles: [ { role: "<%= p('mongodb.auth.user_role') %>", db: "<%= p('mongodb.auth.user_db') %>" } ]
+  }
+)
+__EOF__
+
+cd ~
+
+/var/vcap/packages/simple_server/mongodb/bin/mongo <%= p('haproxy.ip') %>:<%= p('haproxy.port') %> /var/vcap/jobs/create-user/auth.js
