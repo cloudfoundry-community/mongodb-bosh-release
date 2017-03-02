@@ -7,3 +7,6 @@ ls
 pwd
 
 tar zxvf mongodb3.tgz
+
+ln -s ${BOSH_INSTALL_TARGET}/mongodb-linux* ${BOSH_INSTALL_TARGET}/mongodb
+

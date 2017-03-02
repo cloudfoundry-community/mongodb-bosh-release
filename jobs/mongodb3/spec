@@ -1,12 +1,15 @@
 ---
 name: mongodb3 
 templates:
-  ctl: bin/ctl
+  ctl.erb: bin/ctl
 
 packages:
 - simple_server
 
 properties:
-  port:
+  mongodb.port:
     description: "Port on which server is listening"
-    default: 8080
+    default: 27017 
+  mongodb.auth.enable:
+    description: "Whether MongDB auth is enabled or not"
+    default: false

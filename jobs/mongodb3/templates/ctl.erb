@@ -20,7 +20,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u $RUNAS:$RUNAS \
-      /var/vcap/packages/simple_server/mongodb-linux-x86_64-ubuntu1404-3.2.6/bin/mongod --dbpath $DATA_DIR --replSet resp1
+      /var/vcap/packages/simple_server/mongodb-linux-x86_64-ubuntu1404-3.2.6/bin/mongod <% if p("mongodb.auth.enable") %> --auth <% end %> --dbpath $DATA_DIR --replSet resp1
       >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
     ;;
 
