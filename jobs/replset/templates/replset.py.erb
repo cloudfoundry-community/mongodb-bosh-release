@@ -1,19 +1,21 @@
 from pymongo import MongoClient
-c = MongoClient("10.62.90.170", 27017)
 
 ips = []
 <% p("mongodb.ips").each do |ip| %>
 ips.append("<%= ip %>")
 <% end %>
 
+c = MongoClient("<%= p('haproxy.mongodb.ip') %>", <%= p('haproxy.mongodb.port.frontend') %>)
+
+
 members = []
 
 for i, ip in enumerate(ips):
-    members.append({'_id': i, 'host': ip+':27017'})
+    members.append({'_id': i, 'host': ip+':<%= p('haproxy.mongodb.port.backend') %>'})
 
 config = {'_id':'resp1','members':members}
 
-c = MongoClient(ips[0], 27017)
+c = MongoClient(ips[0], <%= p('haproxy.mongodb.port.backend') %>)
 
 
 c.admin.command("replSetInitiate",config)
