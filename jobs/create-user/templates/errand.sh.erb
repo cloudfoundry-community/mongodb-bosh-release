@@ -11,6 +11,7 @@ export LC_ALL=C
 
 cd /var/vcap/jobs/create-user
 cat <<__EOF__ >> auth.js
+db = db.getSiblingDB('admin')
 db.createUser(
   {
     user: "<%= p('mongodb.auth.user') %>",
