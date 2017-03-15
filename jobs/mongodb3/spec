@@ -10,6 +10,12 @@ properties:
   mongodb.port:
     description: "Port on which server is listening"
     default: 27017 
-  mongodb.auth.enable:
-    description: "Whether MongDB auth is enabled or not"
+  mongodb.auth.single-server.enable:
+    description: "Defines if mongodb is started with --auth flag"
     default: false
+  mongodb.auth.replica-set.enable:
+    description: "Defines if mongodb is started with --keyfile flag"
+    default: false
+  mongodb.auth.replica-set.keyfile:
+    description: "The content of the keyfile"
+    default: If-keyfiles-are-enabled-please-change-me
