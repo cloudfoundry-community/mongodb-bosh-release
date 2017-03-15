@@ -1,5 +1,5 @@
 ---
-name: create-user 
+name: create-admin-user 
 
 packages:
 - simple_server 
@@ -14,13 +14,8 @@ properties:
   mongodb.auth.password:
     description: "Password of user to create"
     default: pleasechangeme
-  mongodb.auth.user_role:
-    description: "Userrole of user to create"
-    default: userAdminAnyDatabase
-  mongodb.auth.user_db:
-    description: "DB for user to create"
-    default: admin
-
+  mongodb.auth.additional_roles:
+    description: "Additonal roles for mongodb.auth.user (gets userAdminAnyDatabase and readWriteAdminAnyDatabase additionally)"
 
   haproxy.ip:
     description: "IP of HAproxy"

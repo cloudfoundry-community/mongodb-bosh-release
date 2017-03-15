@@ -1,0 +1,38 @@
+#!/bin/bash
+
+LOG_DIR=/var/vcap/sys/log/create-admin-user
+RUNAS=vcap
+
+mkdir -p $LOG_DIR
+chown -R $RUNAS:$RUNAS  $LOG_DIR
+
+export BOST_INSTALL_TARGET1=/var/vcap/packages/create-admin-user/
+export LC_ALL=C
+
+cd /var/vcap/jobs/create-admin-user
+cat <<__EOF__ >> auth.js
+db = db.getSiblingDB('admin')
+db.createUser(
+  {
+    user: "<%= p('mongodb.auth.user') %>",
+    pwd: "<%= p('mongodb.auth.password') %>",
+    roles: [ 
+      <% p("mongodb.auth.additional_roles").each do |role| %>
+      { 
+        role: "<%= role %>", db: "<%= p('mongodb.auth.user') %>" 
+      },
+      <% end %>
+      { 
+        role: "userAdminAnyDatabase", db: "<%= p('mongodb.auth.user') %>" 
+      },
+      { 
+        role: "readWriteAnyDatabase", db: "<%= p('mongodb.auth.user') %>" 
+      }
+    ]
+  }
+)
+__EOF__
+
+cd ~
+
+/var/vcap/packages/simple_server/mongodb/bin/mongo <%= p('haproxy.ip') %>:<%= p('haproxy.port') %> /var/vcap/jobs/create-admin-user/auth.js
