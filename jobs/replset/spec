@@ -9,8 +9,18 @@ templates:
   replset.py.erb: bin/replset.py
 
 properties:
-  mongodb:
-    ips:
-    - 10.241.143.45
-    - 10.241.143.46
-    - 10.241.143.47
+
+  haproxy.mongodb.ip:
+    description: "IP of HAProxy"
+
+  haproxy.mongodb.port.frontend:
+    description: "Frontend port for HAProxy to use"
+    default: 27027
+
+  haproxy.mongodb.port.backend:
+    description: "Backend port on which the MongoDB servers are listening"
+    default: 27017
+
+  mongodb.ips:
+    description: "Array of MongoDB Servers"
+

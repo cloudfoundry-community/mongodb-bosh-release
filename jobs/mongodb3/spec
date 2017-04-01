@@ -1,12 +1,21 @@
 ---
 name: mongodb3 
 templates:
-  ctl: bin/ctl
+  ctl.erb: bin/ctl
 
 packages:
 - simple_server
 
 properties:
-  port:
+  mongodb.port:
     description: "Port on which server is listening"
-    default: 8080
+    default: 27017 
+  mongodb.auth.single-server.enable:
+    description: "Defines if mongodb is started with --auth flag"
+    default: false
+  mongodb.auth.replica-set.enable:
+    description: "Defines if mongodb is started with --keyfile flag"
+    default: false
+  mongodb.auth.replica-set.keyfile:
+    description: "The content of the keyfile"
+    default: If-keyfiles-are-enabled-please-change-me

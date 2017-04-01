@@ -17,13 +17,13 @@ defaults
 
 default-server  on-error fastinter error-limit 3 inter 30000ms fastinter 10000ms downinter 300s fall 3
 
-frontend fe_mongo_27027_tcp
-  bind 0.0.0.0:27027
+frontend fe_mongo_tcp
+  bind 0.0.0.0:<%= p('haproxy.mongodb.port.frontend') %>
   mode tcp
   option tcplog
-  use_backend be_mongo_27027_tcp
+  use_backend be_mongo_tcp
 
-backend be_mongo_27027_tcp
+backend be_mongo_tcp
   mode tcp
   option tcp-check
   # mongodb wire protocol
@@ -49,5 +49,5 @@ backend be_mongo_27027_tcp
   option tcplog
   option tcpka
   <% p("mongodb.ips").each do |ip| %>
-  server mongodb-<%= ip %> <%= ip %>:27017 check inter 20000
+  server mongodb-<%= ip %> <%= ip %>:<%= p('haproxy.mongodb.port.backend') %> check inter 20000
   <% end %>

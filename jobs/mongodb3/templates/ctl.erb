@@ -19,8 +19,16 @@ case $1 in
 
     echo $$ > $PIDFILE
 
+    <% if p("mongodb.auth.replica-set.enable") %> 
+    if [[ ! -f /var/vcap/mongodb3/keyfile ]]; then
+      echo "<%= p('mongodb.auth.replica-set.keyfile') %>" > /var/vcap/jobs/mongodb3/keyfile
+      chmod 0700 /var/vcap/jobs/mongodb3/keyfile
+      chown $RUNAS:$RUNAS /var/vcap/jobs/mongodb3/keyfile
+    fi
+    <% end %>
+
     exec chpst -u $RUNAS:$RUNAS \
-      /var/vcap/packages/simple_server/mongodb-linux-x86_64-ubuntu1404-3.2.6/bin/mongod --dbpath $DATA_DIR --replSet resp1
+      /var/vcap/packages/simple_server/mongodb-linux-x86_64-ubuntu1404-3.2.6/bin/mongod <% if p("mongodb.auth.single-server.enable") %> --auth <% end %> <% if p("mongodb.auth.replica-set.enable") %> --keyFile /var/vcap/jobs/mongodb3/keyfile <% end %> --dbpath $DATA_DIR --replSet resp1
       >>$LOG_DIR/server.stdout.log 2>>$LOG_DIR/server.stderr.log
     ;;
 
