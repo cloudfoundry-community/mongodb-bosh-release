@@ -117,6 +117,16 @@ jobs:
   networks:
   - name: haproxy
   properties: {}
+- name: create-admin-user
+  lifecycle: errand
+  instances: 1
+  templates:
+  - {name: create-admin-user, release: mongodb3}
+  persistent_disk: 10_240
+  resource_pool: haproxy
+  networks:
+  - name: haproxy
+  properties: {}
 
 properties:
   mongodb:
