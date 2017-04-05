@@ -22,6 +22,8 @@ bosh-vsphere-esxi-ubuntu-trusty-go_agent | 3363.1
 
 3. service instances represent logical databases on the shared server  
 
+4. Authentication supported 
+
 ## How to use
 
 1. You can follow the [bosh document](http://bosh.io/docs) to install BOSH firstly
@@ -47,9 +49,8 @@ bosh-vsphere-esxi-ubuntu-trusty-go_agent | 3363.1
     `bosh vms`
 
 ## Road-map
-
-1. Authentication 
-2. Dashboard 
+ 
+1. Dashboard 
 
 ## Contribution 
 
