@@ -1,0 +1,9 @@
+meta:
+  name: mongodb3
+  director_uuid: (( param "please define the director UUID" ))
+properties:
+  mongodb:
+    auth:
+      user: (( param "please define the admin user" ))
+      password: (( param "please define the admin password" ))
+      additional_roles: (( param "please define admin additional roles" ))

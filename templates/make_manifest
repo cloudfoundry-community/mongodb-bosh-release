@@ -1,0 +1,6 @@
+spruce merge --prune meta \
+mongodb-template.yml \
+infrastructure-cloudstack.yml \
+stub.yml \
+$* > manifest_mongodb.yml
+

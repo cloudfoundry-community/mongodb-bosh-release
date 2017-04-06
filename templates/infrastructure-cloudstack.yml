@@ -1,0 +1,36 @@
+compilation: (( param "please define compilation VM infos" ))
+
+disk_pools:
+- name: mongodb-persistent-disk
+  disk_size: 50000
+
+stemcell: (( param "please define stemcells infos" ))
+
+resource_pools:
+- cloud_properties:
+    compute_offering: shared.xlarge
+    disk: 2048
+    ephemeral_disk_offering: shared.custom
+  name: mongodb
+  stemcell: (( grab stemcell ))
+- cloud_properties:
+    compute_offering: shared.medium
+    disk: 2048
+    ephemeral_disk_offering: shared.custom
+  name: haproxy
+  stemcell: (( grab stemcell ))
+- cloud_properties:
+    compute_offering: shared.medium
+    disk: 2048
+    ephemeral_disk_offering: shared.custom
+  name: errand
+  stemcell: (( grab stemcell ))
+
+networks:
+- name: compile
+  subnets:
+  - cloud_properties: (( param "please define compile network configuration" ))
+  type: manual
+- name: mongodb
+  subnets:
+  - cloud_properties: (( param "please define mongodb network configuration" ))
