@@ -5,7 +5,7 @@ packages:
 - haproxy
 
 templates:
-  haproxy.conf.erb: bin/haproxy.conf
+  haproxy.conf.erb: config/haproxy.conf
   haproxy_ctl: bin/haproxy_ctl
 
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CFG_DIR=/var/vcap/jobs/haproxy/bin
+CFG_DIR=/var/vcap/jobs/haproxy/config
 RUN_DIR=/var/vcap/sys/run/haproxy
 LOG_DIR=/var/vcap/sys/log/haproxy
 
