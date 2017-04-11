@@ -13,10 +13,10 @@ properties:
   mongodb.ips:
     description: "Array of MongoDB servers"
 
-  haproxy.mongodb.port.frontend:
+  haproxy.port.frontend:
     description: "Frontend port for HAProxy to use"
     default: 27027
 
-  haproxy.mongodb.port.backend:
+  haproxy.port.backend:
     description: "Backend port on which the MongoDB servers are listening"
     default: 27017
