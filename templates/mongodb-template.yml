@@ -1,0 +1,60 @@
+---
+director_uuid: (( grab meta.director_uuid ))
+name: (( grab meta.name ))
+releases:
+- {name: mongodb3, version: latest }
+
+jobs:
+- name: mongodb3
+  instances: 3
+  templates:
+  - {name: mongodb3, release: mongodb3}
+  persistent_disk_pool: mongodb-persistent-disk
+  resource_pool: mongodb
+  networks:
+  - name: mongodb
+    static_ips: (( static_ips(0,1,2) ))
+  properties: {}
+- name: haproxy
+  instances: 1
+  templates:
+  - {name: haproxy, release: mongodb3}
+  resource_pool: haproxy
+  networks:
+  - name: mongodb
+    static_ips: (( static_ips(3) ))
+  properties: {}
+- name: replset
+  lifecycle: errand
+  instances: 1
+  templates:
+  - {name: replset, release: mongodb3}
+  resource_pool: errand
+  networks:
+  - name: mongodb
+  properties: {}
+- name: create-admin-user
+  lifecycle: errand
+  instances: 1
+  templates:
+  - {name: create-admin-user, release: mongodb3}
+  resource_pool: errand
+  networks:
+  - name: mongodb
+  properties: {}
+properties:
+  mongodb:
+    auth: (( grab properties.mongodb.auth ))
+    ips: (( grab jobs.mongodb3.networks.mongodb.static_ips ))
+  haproxy:
+    ip: (( join "" jobs.haproxy.networks.mongodb.static_ips ))
+
+resource_pools: (( grab resource_pools ))
+disk_pools: (( grab disk_pools ))
+networks: (( grab networks ))
+compilation: (( grab compilation ))
+update:
+  canaries: 1
+  canary_watch_time: 15000-30000
+  update_watch_time: 15000-30000
+  max_in_flight: 1
