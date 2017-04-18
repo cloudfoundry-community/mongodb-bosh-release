@@ -1,9 +1,32 @@
----
+haproxy/haproxy-1.6.5.tar.gz:
+  size: 1563272
+  object_id: a668d001-3adb-442b-4e52-1a6df36c01e7
+  sha: d9f5b6cade54d958ada2f67c6c7b97c9c8ef14ac
+haproxy/pcre-8.38.tar.gz:
+  size: 2053336
+  object_id: f25d49ab-e695-4048-7d99-ae1fdfcfd9a4
+  sha: 3ab418d0026c2a4e693ec783bd60660debc32b8f
+replset/pip-8.1.2.tar.gz:
+  size: 1140573
+  object_id: 95b9b4b4-4f9b-49ec-42e1-a8c0b99478b3
+  sha: 1c13c247967ec5bee6de5fd104c5d78ba30951c7
+replset/pymongo-3.2.tar.gz:
+  size: 473631
+  object_id: 9f023750-4a83-4296-6a3f-56c0092b3222
+  sha: 1e9bf461dad709148fed4faf2d93aaf5fc30ab79
+replset/setuptools-19.6.2.tar.gz:
+  size: 641373
+  object_id: ca512cb4-395a-4b13-6749-5ab6586ca369
+  sha: 4cc801b411b4ed8160d1a82884274f103b610a95
 ruby/bundler-1.6.3.gem:
+  size: 293376
   object_id: 2cbdd2bc-bc00-4b4b-b617-2433cea68a02
   sha: c8a000f75b6a6f60d9fb727f8076ec9171e14c20
-  size: 293376
 ruby/ruby-2.1.4.tar.gz:
+  size: 15127418
   object_id: 00b50c34-f264-4245-9a90-b56c7385694e
   sha: 29e9cfdd9e989b7621d7696ef3f970262a08dbc3
-  size: 15127418
+simple_server/mongodb3.tgz:
+  size: 78394965
+  object_id: 8eef82f4-127a-4c13-7caf-bb8ece36756d
+  sha: aa55159816e24497dabbced3b03cbeea3c159732
