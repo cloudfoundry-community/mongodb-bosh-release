@@ -47,7 +47,13 @@ bosh-vsphere-esxi-ubuntu-trusty-go_agent | 3363.1
 5. When it completes ,you can check mongodb node using
 
     `bosh vms`
-
+6. After some months usage, we suggest not to use haproxy to connect the mongo broker and app in the cloudfoudry.
+   
+   Because the connection between app and mongo will not reconnect if some replset is down, 
+   
+   But can use the haproxy for date export/import.
+   
+   
 ## Road-map
  
 1. Dashboard 
