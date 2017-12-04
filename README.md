@@ -32,9 +32,9 @@ bosh-vsphere-esxi-ubuntu-trusty-go_agent | 3363.1
 
 3. Create and upload release
 
-    `bosh create release --force`
+    `bosh create-release --force`
     
-    `bosh upload release`
+    `bosh upload-release`
 
 4. Deploy 
 
@@ -42,7 +42,7 @@ bosh-vsphere-esxi-ubuntu-trusty-go_agent | 3363.1
     
     `bosh -n deploy`
     
-    `bosh run errand replset --keep-alive`
+    `bosh run-errand replset --keep-alive`
 
 5. When it completes ,you can check mongodb node using
 
